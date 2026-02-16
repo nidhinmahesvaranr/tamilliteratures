@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tamil Literature Game</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+    h1 {
+    text-align: center;
+    color: #ffffff;
+    margin: 20px 0;
+    }
+    body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(135deg,#667eea,#764ba2);
+        color: #333;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 850px;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px);
+        padding: 30px;
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        text-align: center;
+        border: 2px solid rgba(255,255,255,0.4);
+        animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+        color: #b30000;
+        font-size: 40px;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px #fff;
+    }
+
+    .tamil-img {
+        width: 120px;
+        margin-bottom: 10px;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    button {
+        padding: 12px 25px;
+        margin: 10px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .btn-primary {
+        background: #ff6f61;
+        color: white;
+    }
+    .btn-primary:hover {
+        background: #ff3b2e;
+    }
+
+    .btn-secondary {
+        background: #2ecc71;
+        color: white;
+    }
+    .btn-secondary:hover {
+        background: #25a25a;
+    }
+
+    .btn-outline {
+        background: rgb(224, 196, 14);
+        border: 2px solid #555;
+        color: #333;
+    }
+    .btn-outline:hover {
+        background: #eee;
+    }
+
+    #questionText {
+        font-size: 26px;
+        font-weight: bold;
+        color: #6a1b9a;
+        margin-top: 20px;
+    }
+
+    #answerBox {
+        margin-top: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        display: none;
+        background: rgba(255,255,255,0.7);
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .decor {
+        width: 140px;
+        margin: 15px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .qa-buttons button {
+  padding: 15px 25px;
+  border-radius: 25px;
+  border: none;
+  background: linear-gradient(135deg,#ff416c,#ff4b2b);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<h1>தமிழ் இலக்கிய விளையாட்டு</h1>
+<br/>
+<center>
+<div class="container">
+    <p style="font-size:20px; color:#333;">உங்கள் வயதுக் குழுவைத் தேர்ந்தெடுக்கவும்</p>
+    <button class="btn-primary" onclick="selectAge('kid')">வயது 5-9</button>
+    <button class="btn-secondary" onclick="selectAge('teen')">வயது 10-17</button>
+    <button class="btn-outline" onclick="selectAge('adult')">18+</button>
+    <div id="gameArea" style="display:none; margin-top:20px;">
+        <h2 id="questionText"></h2>
+        <p id="answerBox"></p>
+        <button class="btn-primary" onclick="showAnswer()">பதில்</button>
+        <button class="btn-secondary" onclick="newQuestion()">புதிய கேள்வி</button>
+    </div>
+</div>
+<div class="qa-buttons">
+<button onclick="location.href='index.html'">முதல் பக்கம்</button>
+</div>
+</center>
+
+<script>
+    let selectedAge = null;
+
+    const questions = {
+        kid: [
+            { q: "தமிழின் முதல் எழுத்து என்ன?", a: "அ" },
+            { q: "தமிழில் எத்தனை உயிர் எழுத்துகள் உள்ளன?", a: "12 உயிர் எழுத்துகள்." },
+            { q: "தமிழில் எத்தனை மெய் எழுத்துகள் உள்ளன?", a: "18 மெய் எழுத்துகள்." }, 
+            { q: "தமிழில் மொத்தம் எத்தனை எழுத்துகள் உள்ளன?", a: "247 எழுத்துகள் (12 உயிர் + 18 மெய் + 216 உயிர்மெய் + 1 ஆய்த எழுத்து)." },
+            { q: "அறம் செய்ய .... ?", a: "விரும்பு." },
+            { q: "திருக்குறளை எழுதியவர் யார்?", a: "திருவள்ளுவர்." },
+            { q: "ஓடி விளையாடு பாப்பா என்று குழந்தைகளுக்காகப் பாடியவர் யார்?", a: "பாரதியார்." },
+            { q: "அறம் செய்ய விரும்பு - இதைச் சொன்னவர் யார்?", a: "ஔவையார்."  }
+            
+        ],
+
+        teen: [
+            { q: "தமிழின் மிகப் பழமையான இலக்கண நூல் எது?", a: "தொல்காப்பியம்" },
+            { q: "திருக்குறளில் எத்தனை குறள்கள் உள்ளன?", a: "1330 குறள்கள்." },
+            { q: "சங்க காலத்தில் வாழ்ந்த பெண் புலவர்களில் மிகவும் பிரபலமானவர் யார்?", a: "ஔவையார்." },
+            { q: "சிலப்பதிகாரத்தின் ஆசிரியர் யார்?", a: "இளங்கோவடிகள்." },
+            { q: "யாதும் ஊரே; யாவரும்  ...?", a: "கேளிர்." },
+            { q: "தமிழில் 'பூ' என்ற சொல்லின் பொருள் என்ன?", a: "பூ என்பது மலரை குறிக்கும் தமிழ் சொல்." },
+            { q: "திருக்குறளில் எத்தனை அதிகாரங்கள் உள்ளன?", a: "133 அதிகாரங்கள்." }, 
+            { q: "உலக பொதுமறை என அழைக்கப்படுவது?", a: "திருக்குறள்." },
+            { q: "ஔவையாருக்கு 'அரிய நெல்லிக்கனியை' பரிசாக வழங்கிய அரசன் யார்?", a: "அதியமான்." },
+            { q: "திருக்குறளின் மூன்று பிரிவுகள் என்ன?", a: "அறத்துப்பால், பொருட்பால், காமத்துப்பால்." },            
+            { q: "யாதும் ஊரே; யாவரும் கேளிர் என்ற புகழ்பெற்ற வரிகளைப் பாடியவர் யார்?", a: "கணியன் பூங்குன்றனார்." },
+            { q: "யாமறிந்த மொழிகளிலே தமிழ்மொழி போல் இனிதாவது எங்கும் காணோம் என்று பாடிய மகாகவி யார்?", a: "பாரதியார்." },
+            { q: "தமிழுக்கும் அமுதென்று பேர் - அந்தத் தமிழ் இன்பத் தமிழ் எங்கள் உயிருக்கு நேர் என்று பாடியவர் யார்?", a: "பாரதிதாசன்." },
+            { q: "பாரதியார் இயற்றிய முக்கியமான படைப்புகள் என்ன?", a: "கண்ணன் பாட்டு, குயில்பாட்டு, பாஞ்சாலி சபதம்." },
+            { q: "பாரதியார் பாடலில் யாமறிந்த மொழிகளிலே இனிமையானது என்று எந்த மொழியைக் குறிப்பிடுகிறார்?", a: "தமிழ் மொழி." }
+        ],
+
+        adult: [
+            { q: "தமிழ் மொழியின் மிகப்பழமையான இலக்கண நூல் எது?", a: "தொல்காப்பியம்." }, 
+            { q: "சங்க இலக்கியத்தின் இரு பிரிவுகள் என்ன?", a: "அகம், புறம். சங்க இலக்கியங்கள் பொருள் அடிப்படையில் அகம், புறம் என இரண்டு பெரும் பிரிவுகளாகப் பிரிக்கப்பட்டுள்ளது." },
+            { q: "ஐம்பெருங்காப்பியங்கள் என்ன?", a: "சிலப்பதிகாரம், மணிமேகலை, சீவக சிந்தாமணி, வளையாபதி, குண்டலகேசி." },
+            { q: "ஐஞ்சிறுங்காப்பியங்கள் என்ன?", a: "உதயணகுமார காவியம், நாககுமார காவியம், யசோதர காவியம், சூளாமணி, நீலகேசி." },
+            { q: "திருக்குறளில் எத்தனை அதிகாரங்கள் உள்ளன?", a: "133 அதிகாரங்கள்." }, 
+            { q: "தொல்காப்பியம் எந்த மூன்று பகுதிகளைக் கொண்டது?", a: "எழுத்ததிகாரம், சொல்லதிகாரம், பொருளதிகாரம்." },
+            { q: "மணிமேகலை எந்த இலக்கியத்தின் தொடர்ச்சி?", a: "சிலப்பதிகாரத்தின் தொடர்ச்சி." },
+            { q: "தமிழ் மொழி எந்த ஆண்டு இந்தியாவின் முதல் செம்மொழியாக அறிவிக்கப்பட்டது?", a: "2004-ஆம் ஆண்டு."},
+            { q: "திருக்குறளில் பயன்படுத்தப்படாத ஒரே உயிரெழுத்து?", a: "ஔ" },
+            { q: "சிலப்பதிகாரத்தின் ஆசிரியர் யார்?", a: "இளங்கோவடிகள்" },
+            { q: "திருக்குறளில் எத்தனை குறள்கள் உள்ளன?", a: "1330 குறள்கள்." },
+            { q: "ஏற்றுமதி மற்றும் இறக்குமதி பற்றி விரிவாகக் கூறும் சங்க இலக்கிய நூல் எது?", a: "பட்டினப்பாலை." },
+            { q: "சிலப்பதிகாரத்தின் நாயகன் மற்றும் நாயகி யார்?", a: "கோவலன் மற்றும் கண்ணகி." }
+        ]
+    };
+
+    function selectAge(age) {
+        selectedAge = age;
+        document.getElementById("gameArea").style.display = "block";
+        newQuestion();
+    }
+
+    function newQuestion() {
+        const list = questions[selectedAge];
+        const random = list[Math.floor(Math.random() * list.length)];
+
+        document.getElementById("questionText").textContent = random.q;
+        document.getElementById("answerBox").textContent = random.a;
+        document.getElementById("answerBox").style.display = "none";
+    }
+
+    function showAnswer() {
+        document.getElementById("answerBox").style.display = "block";
+    }
+</script>
+
+</body>
+</html>
